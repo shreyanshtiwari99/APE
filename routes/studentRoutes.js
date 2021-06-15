@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
   
     const result = await student.save();
     console.log(result);
-    res.send('student singed up');
+    
 
 })
 
@@ -35,7 +35,8 @@ router.post('/login', async (req, res) => {
         }
         else{
             console.log("Here are the student etails : ", docs);
-            res.send('Logged in successful!');
+            res.send(docs.email);
+         
         }
     }) 
 })

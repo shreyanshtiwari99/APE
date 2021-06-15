@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
     }
         else{
             console.log("Here are the teacher etails : ", docs);
-            res.send('Successfully logged in as teacher');
+            res.send(docs.email);
         }
     }) 
 })
