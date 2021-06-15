@@ -12,7 +12,7 @@ router.post('/signup', async (req, res) => {
         rollno:req.body.rollno,
         semester:req.body.semester,
         section:req.body.section,
-        phone:req.body.phoneno
+        phoneno:req.body.phoneno
     })
   
     const result = await student.save();
@@ -22,6 +22,8 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     console.log('student login route');
+    console.log("Email:",req.body.email);
+    console.log("pass:",req.body.password);
     Student.findOne({ email: req.body.email, password: req.body.password}, function (err, docs) {
         if (err){
             console.log(err);
@@ -30,6 +32,7 @@ router.post('/login', async (req, res) => {
             console.log('No student found with that email and password')
         else{
             console.log("Here are the student etails : ", docs);
+            res.send(docs);
         }
     }) 
 })

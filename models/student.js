@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
     rollno: {type: Number, required:true},
     semester: {type:Number, required:true},
     section: {type:String, required:true}, 
-    phone: {type:Number, required:true},
+    phoneno: {type:Number, required:true},
     subjects: [subjectSchema]
 })
 const Student = mongoose.model('Student', studentSchema);

@@ -8,7 +8,7 @@ router.post('/signup', async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         password: req.body.password,
-        phone:req.body.phoneno,
+        phoneno:req.body.phoneno,
         isHod:req.body.isHod
     })
     try{
@@ -30,6 +30,7 @@ router.post('/login', async (req, res) => {
             console.log('No teacher found with that email and password')
         else{
             console.log("Here are the teacher etails : ", docs);
+            res.send(docs);
         }
     }) 
 })
