@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
   
     const result = await student.save();
     console.log(result);
-    res.send('Singup of student done!')
+    res.send('student singed up');
 
 })
 

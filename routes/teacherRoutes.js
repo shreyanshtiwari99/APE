@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
     try{
     const result = await teacher.save();
     console.log(result);
-    res.send('Sign up done!')
+    res.send('teacher signed up');
 }
 catch(e){
     console.log(e.message);
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
             console.log('No teacher found with that email and password')
         else{
             console.log("Here are the teacher etails : ", docs);
-            res.send('Successfully logged in');
+            res.send('Successfully logged in as teacher');
         }
     }) 
 })
