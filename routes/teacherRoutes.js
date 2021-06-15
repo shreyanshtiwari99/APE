@@ -27,8 +27,10 @@ router.post('/login', async (req, res) => {
         if (err){
             console.log(err);
         }
-        if(!docs)
-            console.log('No teacher found with that email and password')
+        if(!docs){
+            console.log('No teacher found with that email and password');
+            res.send("no record found in database");;
+    }
         else{
             console.log("Here are the teacher etails : ", docs);
             res.send('Successfully logged in as teacher');
