@@ -9,7 +9,12 @@ const teacherRoutes = require('./routes/teacherRoutes');
 mongoose.connect('mongodb+srv://Shreyansh:shreytheking99@cluster0.5o5ap.mongodb.net/ape?retryWrites=true&w=majority', {useUnifiedTopology:true, useNewUrlParser: true})
     .then(()=> console.log('Connected to MongoDB..'))
     .catch((e)=> console.log('There was some error in connecting to the database',e));
-
+   
+app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.json());
 app.use(cors());
