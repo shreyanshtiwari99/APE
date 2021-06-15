@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const studentRoutes = require('./routes/studentRoutes')
 const teacherRoutes = require('./routes/teacherRoutes');
 
-mongoose.connect('mongodb://localhost/ape', {useUnifiedTopology:true, useNewUrlParser: true})
+mongoose.connect('mongodb+srv://Shreyansh:shreytheking99@cluster0.5o5ap.mongodb.net/ape?retryWrites=true&w=majority', {useUnifiedTopology:true, useNewUrlParser: true})
     .then(()=> console.log('Connected to MongoDB..'))
     .catch((e)=> console.log('There was some error in connecting to the database',e));
 
