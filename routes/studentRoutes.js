@@ -17,6 +17,7 @@ router.post('/signup', async (req, res) => {
   
     const result = await student.save();
     console.log(result);
+    res.send('Singup of student done!')
 
 })
 
@@ -32,7 +33,7 @@ router.post('/login', async (req, res) => {
             console.log('No student found with that email and password')
         else{
             console.log("Here are the student etails : ", docs);
-            res.send(docs);
+            res.send('Logged in successful!');
         }
     }) 
 })
