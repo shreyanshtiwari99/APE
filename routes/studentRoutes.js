@@ -41,7 +41,25 @@ router.post('/login', async (req, res) => {
     }) 
 })
 
+router.post('/subjectdetails', async (req, res) =>{
+    console.log('student subject marks route');
+    enterSubDetails(req.body);
+     const result = await student.save();
+    console.log(result);
+})
 
+async function enterSubDetails(sub){
+    const student = await Student.findOne({email:req.body.email}, function (err,data){
+        if(err)
+            console.log(err);
+        else{
+            console.log(data);  
+            Student.subjects.push(sub);
+            res.send('Data sucessfully sent');
+            }
+        }  
+    )}
+    
 
 
 module.exports = router;
