@@ -40,8 +40,8 @@ router.post('/login', async (req, res) => {
         }
         else{
             console.log("Here are the student etails : ", docs);
-            
-            res.send(docs.email, docs.userType);
+          
+            res.send(docs);
          
         }
     }) 
