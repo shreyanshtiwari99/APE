@@ -15,7 +15,7 @@ router.post('/signup', async (req, res) => {
         semester:req.body.semester,
         section:req.body.section,
         phoneno:req.body.phoneno,
-        userType: req.body.userType
+        userType: 0
     })
   
     const result = await student.save();
