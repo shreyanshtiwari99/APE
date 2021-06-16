@@ -6,7 +6,7 @@ const teacherSchema = new mongoose.Schema({
     email: {type:String, required:true},
     password: {type:String, required:true}, 
     phoneno: {type:Number, required:true},
-    
+    userType: {type:Number, default:1}
 })
 const Teacher = mongoose.model('Teacher', teacherSchema);
 

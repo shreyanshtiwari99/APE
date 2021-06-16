@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
     }
         else{
             console.log("Here are the teacher etails : ", docs);
-            res.send(docs.email);
+            res.send(docs.email,docs.userType);
         }
     }) 
 })

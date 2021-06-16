@@ -14,7 +14,8 @@ router.post('/signup', async (req, res) => {
         rollno:req.body.rollno,
         semester:req.body.semester,
         section:req.body.section,
-        phoneno:req.body.phoneno
+        phoneno:req.body.phoneno,
+
     })
   
     const result = await student.save();
@@ -39,7 +40,8 @@ router.post('/login', async (req, res) => {
         }
         else{
             console.log("Here are the student etails : ", docs);
-            res.send(docs.email);
+            
+            res.send(docs.email, docs.userType).redirect('https://calm-scrubland-49069.herokuapp.com/Charts');
          
         }
     }) 

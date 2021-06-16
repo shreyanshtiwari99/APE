@@ -17,6 +17,7 @@ const studentSchema = new mongoose.Schema({
     semester: {type:Number, required:true},
     section: {type:String, required:true}, 
     phoneno: {type:Number, required:true},
+    userType: {type:Number, default: 0},
     subjects: [subjectSchema]
 })
 const Student = mongoose.model('Student', studentSchema);
