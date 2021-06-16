@@ -6,6 +6,7 @@ const router = express.Router();
 //signup
 router.post('/signup', async (req, res) => {
     console.log('student signup route');
+    try{
     const student = new Student({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -20,6 +21,11 @@ router.post('/signup', async (req, res) => {
   
     const result = await student.save();
     console.log(result);
+}
+catch(err) {
+    console.log(err.message);
+    res.send("There was some error in signup: ",err.message);
+}
     
 
 })
@@ -30,6 +36,7 @@ router.post('/login', async (req, res) => {
     console.log('student login route');
     console.log("Email:",req.body.email);
     console.log("pass:",req.body.password);
+    try{
     Student.findOne({ email: req.body.email, password: req.body.password}, function (err, docs) {
         if (err){
             console.log(err);
@@ -44,7 +51,12 @@ router.post('/login', async (req, res) => {
             res.send(docs);
          
         }
-    }) 
+    })
+}
+catch(err){
+    console.log("There was an error",err.message);
+    res.send(err.message);
+} 
   
 })
 
@@ -52,9 +64,15 @@ router.post('/login', async (req, res) => {
 //send student marks 
 router.post('/getMarks', async(req,res) => {
     console.log(req.body.email);
+    try{
     const student = await Student.findOne({email: req.body.email});
     console.log(student.subjects);
     res.send(student.subjects);
+    }
+    catch(err){
+        console.log(err.message);
+        res.send("there was some error",err.message);
+    }
 })
 
 
@@ -62,7 +80,7 @@ router.post('/getMarks', async(req,res) => {
 router.post('/subjectdetails', async (req, res) =>{
     console.log('student subject marks route');
     console.log(req.body);
-
+try{
     const student = await Student.findOne({email: req.body.email});
     
     
@@ -75,6 +93,11 @@ router.post('/subjectdetails', async (req, res) =>{
       });
    
     console.log(res);
+}
+catch(err){
+    console.log(err.message);
+    res.send(err.message);
+}
 })
 
 //put marks

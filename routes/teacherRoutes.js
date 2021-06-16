@@ -19,11 +19,13 @@ router.post('/signup', async (req, res) => {
 }
 catch(e){
     console.log(e.message);
+    res.send(e.message);
 }
 })
 
 router.post('/login', async (req, res) => {
     console.log('teacher login route');
+    try{
     Teacher.findOne({ email: req.body.email, password: req.body.password}, function (err, docs) {
         if (err){
             console.log(err);
@@ -37,12 +39,23 @@ router.post('/login', async (req, res) => {
             res.send(docs);
         }
     }) 
+}
+catch(e){
+    console.log(e.message);
+    res.send(e.message);
+}
 })
 
 router.get('/getStudents', async (req,res) =>{
+    try{
     const students = await Student.find();
 
   res.send(students);
+    }
+    catch(e){
+        console.log(e.message);
+        res.send(e.message);
+    }
 })
 
 
