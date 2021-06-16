@@ -41,7 +41,7 @@ router.post('/login', async (req, res) => {
         else{
             console.log("Here are the student etails : ", docs);
             
-            res.send(docs.email, docs.userType).redirect('https://calm-scrubland-49069.herokuapp.com/Charts');
+            res.send(docs.email, docs.userType);
          
         }
     }) 
