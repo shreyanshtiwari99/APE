@@ -10,7 +10,7 @@ router.post('/signup', async (req, res) => {
         password: req.body.password,
         email: req.body.email,
         phoneno:req.body.phoneno,
-       
+       userType: req.body.userType
     })
     try{
     const result = await teacher.save();
