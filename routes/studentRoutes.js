@@ -2,6 +2,8 @@ const express = require('express');
 const Student = require('../models/student.js');
 const router = express.Router();
 
+
+//signup
 router.post('/signup', async (req, res) => {
     console.log('student signup route');
     const student = new Student({
@@ -21,6 +23,8 @@ router.post('/signup', async (req, res) => {
 
 })
 
+
+//login
 router.post('/login', async (req, res) => {
     console.log('student login route');
     console.log("Email:",req.body.email);
@@ -42,6 +46,8 @@ router.post('/login', async (req, res) => {
   
 })
 
+
+//send student marks 
 router.post('/getMarks', async(req,res) => {
     console.log(req.body.email);
     const student = await Student.findOne({email: req.body.email});
@@ -49,6 +55,8 @@ router.post('/getMarks', async(req,res) => {
     res.send(student.subjects);
 })
 
+
+//save marks to database
 router.post('/subjectdetails', async (req, res) =>{
     console.log('student subject marks route');
     console.log(req.body);
@@ -66,6 +74,25 @@ router.post('/subjectdetails', async (req, res) =>{
    
     console.log(res);
 })
+
+//put marks
+// router.put('/subjectdetails', async (req, res) =>{
+//     console.log('student subject marks route');
+
+
+//     const student = await Student.findOne({email: req.body.email});
+    
+    
+//       Student.findOneAndUpdate({subjects.name: req.body.sname}, { subjects: [...student.subjects,...req.body.subjects] }, function(err, result) {
+//         if (err) {
+//           res.send(err);
+//         } else {
+//           res.send('subject marks successfully entered');
+//         }
+//       });
+   
+//     console.log(res);
+// })
 
     
 
