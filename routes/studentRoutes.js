@@ -39,26 +39,34 @@ router.post('/login', async (req, res) => {
          
         }
     }) 
+  
+})
+
+router.post('/getMarks', async(req,res) => {
+    console.log(req.body.email);
+    const student = await Student.findOne({email: req.body.email});
+    console.log(student.subjects);
+    res.send(student.subjects);
 })
 
 router.post('/subjectdetails', async (req, res) =>{
     console.log('student subject marks route');
-    enterSubDetails(req.body);
-     const result = await student.save();
-    console.log(result);
+    console.log(req.body);
+
+    const student = await Student.findOne({email: req.body.email});
+    
+    
+      Student.findOneAndUpdate({email: req.body.email}, { subjects: [...student.subjects,...req.body.subjects] }, function(err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send('subject marks successfully entered');
+        }
+      });
+   
+    console.log(res);
 })
 
-async function enterSubDetails(sub){
-    const student = await Student.findOne({email:req.body.email}, function (err,data){
-        if(err)
-            console.log(err);
-        else{
-            console.log(data);  
-            Student.subjects.push(sub);
-            res.send('Data sucessfully sent');
-            }
-        }  
-    )}
     
 
 

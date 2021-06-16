@@ -1,7 +1,7 @@
 const express = require('express');
 const Teacher = require('../models/teacher.js');
 const router = express.Router();
-
+const Student = require('../models/student.js');
 router.post('/signup', async (req, res) => {
     console.log('teacher post route');
     const teacher = new Teacher({
@@ -38,7 +38,11 @@ router.post('/login', async (req, res) => {
     }) 
 })
 
+router.get('/getStudents', async (req,res) =>{
+    const students = await Student.find();
 
+  res.send(students);
+})
 
 
 
