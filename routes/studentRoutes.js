@@ -89,7 +89,7 @@ router.post('/getMarks',auth, async(req,res) => {
         if(student.subjects.length==0)
             res.status(500).send('No subjects eneterd for this student');
         
-        res.status(200).send(Student.subjects);}
+        res.status(200).send(student.subjects);}
         catch(err){
             res.status(500).send(err.message);
         }
