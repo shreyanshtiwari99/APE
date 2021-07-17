@@ -13,7 +13,7 @@ const teacherSchema = new mongoose.Schema({
 },{timestamps:true})
 
 teacherSchema.methods.generateToken = function(){
-    const token = jwt.sign({email: this._id, userType: this.userType}, config.get('jwtPrivateKey'));
+    const token = jwt.sign({email: this.email, userType: this.userType}, config.get('jwtPrivateKey'));
     return token;
 }
 
