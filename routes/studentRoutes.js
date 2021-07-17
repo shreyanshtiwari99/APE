@@ -82,18 +82,19 @@ router.post('/login', async (req, res) => {
 router.post('/getMarks',auth, async(req,res) => {
     console.log(req.body.email);
    
-    await Student.findOne({email: req.body.email})
-    .then(() =>{
-        console.log(Student.subjects);
-        if(!Student.subjects)
-            res.send('No subjects information entered for this student');
-        res.send(Student.subjects);
-    })
-    .catch(err =>{
-        console.log(err.message);
-        res.status(404).send("there was some error "+err.message);
-    });
+    try{const student = await Student.findOne({email: req.body.email})
     
+        if(!student)
+            res.status(404).send('Student not foud with that email'); 
+        if(student.subjects.length==0)
+            res.status(500).send('No subjects eneterd for this student');
+        
+        res.status(200).send(Student.subjects);}
+        catch(err){
+            res.status(500).send(err.message);
+        }
+  
+  
   
 })
 
@@ -116,10 +117,28 @@ try{
     
     console.log(res);
 }
+
+
 catch(err){
     console.log(err.message);
     res.send(err.message);
 }
+})
+
+router.post('/performanceEvaluate',async (req, res)=>{
+    try
+    {const student = await Student.findOne({email: req.body.email});
+
+    if(!student){
+        console.log(student);
+        res.status(404).send('No student found with that email address');}
+    else{
+        console.log(student);
+        res.status(200).send(student.subjects);}  } 
+    catch(err){
+        console.log(err.message);
+        res.status(500).send(err.message);
+    }
 })
 
 
