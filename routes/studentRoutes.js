@@ -82,15 +82,18 @@ router.post('/login', async (req, res) => {
 router.post('/getMarks',auth, async(req,res) => {
     console.log(req.body.email);
    
-    try{const student = await Student.findOne({email: req.body.email})
+    try{
+        const student = await Student.findOne({email: req.body.email})
     
         if(!student)
             res.status(404).send('Student not foud with that email'); 
         if(student.subjects.length==0)
-            res.status(500).send('No subjects eneterd for this student');
+            res.status(404).send('No subjects eneterd for this student');
         
-        res.status(200).send(student.subjects);}
+        res.status(200).send(student.subjects);
+    }
         catch(err){
+            console.log('Catch block error', err.message);
             res.status(500).send(err.message);
         }
   
