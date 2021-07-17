@@ -1,11 +1,23 @@
 const express = require('express');
-const Student = require('../models/student.js');
+const {validateStudent, Student} = require('../models/student');
 const router = express.Router();
-
-
+const bcrypt = require('bcrypt');
+const Joi = require('joi');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const auth = require('../middleware/auth');
 //signup
 router.post('/signup', async (req, res) => {
     console.log('student signup route');
+    const {error} = validateStudent(req.body);
+    if(error)
+    return res.status(400).send(error.details[0].message);
+
+    //check if email is not already registered
+    let email = await Student.findOne({email: req.body.email});
+    if(email)
+        return res.status(400).send('email already registered');
+
     try{
     const student = new Student({
         firstname: req.body.firstname,
@@ -18,13 +30,23 @@ router.post('/signup', async (req, res) => {
         phoneno:req.body.phoneno,
         userType: 0
     })
+
+    const salt  = await bcrypt.genSalt(10);
+    student.password = await bcrypt.hash(student.password, salt);
   
     const result = await student.save();
-    console.log(result);
+
+    const token  = student.generateToken();
+    res.header('x-auth-token', token).send({
+        _id: user._id,
+        email: user.email,
+        name: user.name
+    });
+    
 }
 catch(err) {
-    console.log(err.message);
-    res.send("There was some error in signup: ",err.message);
+    console.log("Ye aaya aeror",err.message);
+    res.status(400).send("There was some error in signup: "+err.message);
 }
     
 
@@ -34,45 +56,45 @@ catch(err) {
 //login
 router.post('/login', async (req, res) => {
     console.log('student login route');
-    console.log("Email:",req.body.email);
-    console.log("pass:",req.body.password);
-    try{
-    Student.findOne({ email: req.body.email, password: req.body.password}, function (err, docs) {
-        if (err){
-            console.log(err);
-        }
-        if(!docs){
-            console.log('No student found with that email and password');
-            res.send('Invalid credentialas');
-        }
-        else{
-            console.log("Here are the student etails : ", docs);
-          
-            res.send(docs);
-         
-        }
-    })
-}
-catch(err){
-    console.log("There was an error",err.message);
-    res.send(err.message);
-} 
+    const {error} = validate(req.body);
+ 
+    if(error)
+        return res.status(400).send(error.details[0].message);
+
+     //check if user is not already registered
+     let student = await Student.findOne({email: req.body.email});
+     if(!student)
+         return res.status(400).send('Invalid email or password');
+
+     const validPassword = await bcrypt.compare(req.body.password, student.password);
+
+     if(!validPassword)
+     return res.status(400).send('Invalid email or password');   
+
+     const token = jwt.sign({email: student.email}, config.get('jwtPrivateKey'));
+    res.send(token);
+     
   
 })
 
 
 //send student marks 
-router.post('/getMarks', async(req,res) => {
+router.post('/getMarks',auth, async(req,res) => {
     console.log(req.body.email);
-    try{
-    const student = await Student.findOne({email: req.body.email});
-    console.log(student.subjects);
-    res.send(student.subjects);
-    }
-    catch(err){
+   
+    await Student.findOne({email: req.body.email})
+    .then(() =>{
+        console.log(Student.subjects);
+        if(!Student.subjects)
+            res.send('No subjects information entered for this student');
+        res.send(Student.subjects);
+    })
+    .catch(err =>{
         console.log(err.message);
-        res.send("there was some error",err.message);
-    }
+        res.status(404).send("there was some error "+err.message);
+    });
+    
+  
 })
 
 
@@ -91,7 +113,7 @@ try{
           res.send('subject marks successfully entered');
         }
       });
-   
+    
     console.log(res);
 }
 catch(err){
@@ -99,6 +121,8 @@ catch(err){
     res.send(err.message);
 }
 })
+
+
 
 //put marks
 // router.put('/subjectdetails', async (req, res) =>{
@@ -120,6 +144,13 @@ catch(err){
 // })
 
     
+function validate(req){
+    const schema =Joi.object({
+        email: Joi.string().required().email(),
+        password: Joi.required()
+    });
 
+   return schema.validate(req);
+}
 
 module.exports = router;
