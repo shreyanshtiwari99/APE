@@ -38,9 +38,9 @@ router.post('/signup', async (req, res) => {
 
     const token  = student.generateToken();
     res.header('x-auth-token', token).send({
-        _id: user._id,
-        email: user.email,
-        name: user.name
+        _id: student._id,
+        email: student.email,
+        name: student.name
     });
     
 }
