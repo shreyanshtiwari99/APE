@@ -87,10 +87,10 @@ router.post('/getMarks',auth, async(req,res) => {
     
         if(!student)
             res.status(404).send('Student not foud with that email'); 
-        if(student.subjects.length==0)
-            res.status(404).send('No subjects eneterd for this student');
-        
-        res.status(200).send(student.subjects);
+        // if(student.subjects.length==0)
+        //     res.status(404).send('No subjects eneterd for this student');
+        else
+            res.status(200).send(student.subjects);
     }
         catch(err){
             console.log('Catch block error', err.message);
